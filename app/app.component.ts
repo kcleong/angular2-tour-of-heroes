@@ -8,7 +8,6 @@ import {HeroService} from './hero.service';
     selector: 'my-app',
     directives: [HeroDetailComponent],
     providers: [HeroService],
-    // template: '<h1>{{title}}</h1><h2>{{hero.name}} details!</h2><div><label>id: </label>{{hero.id}}</div><div><label>name: </label>{{hero.name}}</div>'
     template:`
         <h1>{{title}}</h1>
         <h2>My Heroes</h2>
@@ -73,18 +72,20 @@ import {HeroService} from './hero.service';
 })
 
 export class AppComponent implements OnInit { 
-    public title = 'Tour of Heroes';
+    title = 'Tour of Heroes';
     heroes: Hero[];
     selectedHero; Hero;
 
-    onSelect(hero: Hero) { this.selectedHero = hero; };
     constructor(private _heroService: HeroService) { }
-    
+
     getHeroes() {
-        this.heroes = this._heroService.getHeroes();
+        this._heroService.getHeroes().then(heroes => this.heroes = heroes);
     }    
+
     ngOnInit() {
         this.getHeroes();
     }    
+
+    onSelect(hero: Hero) { this.selectedHero = hero; };
 }
 
